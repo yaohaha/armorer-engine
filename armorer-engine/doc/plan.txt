@@ -1,0 +1,2 @@
+SqlMapConfigParser   解析SqlMapConfig.xml文件
+BeanConfigParser     解析MapConfig文件中所配置的数据库bean文件

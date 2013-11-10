@@ -1,8 +1,6 @@
 package org.armorer.engine.jdbc;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class Sql {
 
@@ -18,12 +16,7 @@ public class Sql {
         return id;
     }
 
-    public void setId(String id) throws Exception {
-        if (id != null) {
-            id = id.trim();
-        } else {
-            throw new Exception();
-        }
+    public void setId(String id){
         this.id = id;
     }
 
