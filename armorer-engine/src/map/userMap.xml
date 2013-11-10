@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <!-- SqlMap定義 -->
+<sqlMap namespace="User">
+
+    <select id="selectUserCountBySiteId" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        COUNT(1)
+        FROM
+        tbl_content
+        WHERE siteId = #siteId#
+    </select>
+
+    <select id="selectUserDtoByUserId" resultClass="com.j2ee.dto.UserDto">
+        SELECT
+        *
+        FROM
+        tbl_user a
+        LEFT JOIN tbl_user_ext b ON(b.userId = a.userId)
+        LEFT JOIN tbl_user_role c ON(c.userId = a.userId)
+        LEFT JOIN tbl_role d ON(d.roleId = c.roleId)
+        WHERE a.userId = #userId#
+        ORDER BY a.userId ASC
+    </select>
+
+    <select id="selectUserDtoBySiteId" resultClass="com.j2ee.dto.UserDto">
+        SELECT
+        a.userId,
+        a.groupId,
+        a.username,
+        a.email,
+        a.registerTime,
+        a.registerIp,
+        a.lastLoginTime,
+        a.lastLoginIp,
+        a.loginCount,
+        a.rank,
+        a.uploadTotal,
+        a.uploadSize,
+        a.uploadDate,
+        a.isAdmin,
+        a.isViewonlyAdmin,
+        a.isSelfAdmin,
+        a.isDisabled,
+        b.realname,
+        b.gender,
+        b.birthday,
+        b.intro,
+        b.comefrom,
+        b.qq,
+        b.msn,
+        b.phone,
+        b.mobile,
+        b.userImg,
+        b.userSignature,
+        d.roleName,
+        d.isSuper,
+        e.groupName,
+        e.needCaptcha,
+        e.needCheck,
+        e.allowPerDay,
+        e.allowMaxFile,
+        e.allowSuffix,
+        e.isRegDef
+        FROM
+        tbl_user a
+        LEFT JOIN tbl_user_ext b ON(b.userId = a.userId)
+        LEFT JOIN tbl_user_role c ON(c.userId = a.userId)
+        LEFT JOIN tbl_role d ON(d.roleId = c.roleId)
+        LEFT JOIN tbl_group e ON(e.groupId = a.groupId)
+        WHERE d.isSuper = '1'
+        ORDER BY a.userId ASC
+    </select>
+    
+    <select id="selectMemberListBySiteId" resultClass="com.j2ee.dto.UserDto">
+        SELECT
+        a.userId,
+        a.username,
+        a.email,
+        e.groupName,
+        a.lastLoginTime,
+        a.lastLoginIp,
+        a.loginCount,
+        a.isDisabled
+        FROM
+        tbl_user a
+        LEFT JOIN tbl_group e ON(e.groupId = a.groupId)
+        WHERE a.siteId = #siteId#
+        ORDER BY a.userId ASC
+    </select>
+    
+    <select id="selectGroupListBySiteId" resultClass="com.j2ee.dto.GroupDto">
+        SELECT
+        a.groupId,
+        a.groupName,
+        a.allowPerDay,
+        a.allowMaxFile,
+        a.needCheck,
+        a.needCaptcha
+        FROM
+        tbl_group a
+        WHERE a.siteId = #siteId#
+        ORDER BY a.groupId ASC
+    </select>
+    
+    <select id="selectAdminGlobalList" resultClass="com.j2ee.dto.UserDto">
+        SELECT
+        a.userId,
+        a.username,
+        c.siteName,
+        d.roleName,
+        b.groupName,
+        a.lastLoginTime,
+        a.lastLoginIp,
+        a.loginCount,
+        a.isDisabled
+        FROM
+        tbl_user a
+        LEFT JOIN tbl_group b ON(b.groupId = a.groupId)
+        LEFT JOIN tbl_site c ON(c.siteId = a.siteId)
+        LEFT JOIN tbl_role d ON(d.roleId = a.roleId)
+        WHERE a.isAdmin = '1'
+        ORDER BY a.userId ASC
+    </select>
+    
+    <select id="selectAdminLocalList" resultClass="com.j2ee.dto.UserDto">
+        SELECT
+        a.userId,
+        a.username,
+        c.siteName,
+        d.roleName,
+        b.groupName,
+        a.lastLoginTime,
+        a.lastLoginIp,
+        a.loginCount,
+        a.isDisabled
+        FROM
+        tbl_user a
+        LEFT JOIN tbl_group b ON(b.groupId = a.groupId)
+        LEFT JOIN tbl_site c ON(c.siteId = a.siteId)
+        LEFT JOIN tbl_role d ON(d.roleId = a.roleId)
+        WHERE a.isAdmin = '1'
+        AND a.siteId = #siteId#
+        ORDER BY a.userId ASC
+    </select>
+    
+    <select id="selectRoleListBySiteId" resultClass="com.j2ee.dto.UserDto">
+        SELECT
+        a.roleId,
+        a.roleName,
+        a.isSuper
+        FROM
+        tbl_role a
+        WHERE a.siteId = #siteId#
+        ORDER BY a.roleId ASC
+    </select>
+    
+    <select id="selectLoginSuccessLogListBySiteId" resultClass="com.j2ee.dto.LoginInfoDto">
+        SELECT
+        a.userId,
+        b.userName,
+        a.loginTime,
+        a.loginIp
+        FROM
+        tbl_loginInfo a
+        LEFT JOIN tbl_user b ON(b.userId = a.userId)
+        WHERE b.siteId = #siteId#
+        AND a.loginState = '1'
+        ORDER BY a.userId ASC
+    </select>
+    
+    <select id="selectLoginFailureLogListBySiteId" resultClass="com.j2ee.dto.LoginInfoDto">
+        SELECT
+        a.userId,
+        b.userName,
+        a.loginTime,
+        a.loginIp,
+        a.content
+        FROM
+        tbl_loginInfo a
+        LEFT JOIN tbl_user b ON(b.userId = a.userId)
+        WHERE b.siteId = #siteId#
+        AND a.loginState = '0'
+        ORDER BY a.userId ASC
+    </select>
+
+    <insert id="insertUser" resultClass="com.j2ee.entity.User">
+        INSERT INTO tbl_user
+        (
+        userId,
+        groupId,
+        username,
+        password,
+        email,
+        registerTime,
+        registerIp,
+        lastLogime,
+        lastLoginIp,
+        loginCount,
+        rank,
+        uploadTotal,
+        uploadSize,
+        uploadDate,
+        isAdmin,
+        isViewonlyAdmin,
+        isSelfAdmin,
+        isDisabled
+        )
+        VALUES
+        (
+        #userId#,
+        #groupId#,
+        #username#,
+        #password#,
+        #email#,
+        #registerTime#,
+        #registerIp#,
+        #lastLogime#,
+        #lastLoginIp#,
+        #loginCount#,
+        #rank#,
+        #uploadTotal#,
+        #uploadSize#,
+        #uploadDate#,
+        #isAdmin#,
+        #isViewonlyAdmin#,
+        #isSelfAdmin#,
+        #isDisabled#
+        );
+    </insert>
+
+    <insert id="insertUserExt" resultClass="com.j2ee.entity.UserExt">
+        INSERT INTO tbl_user
+        (
+        userId,
+        realname,
+        gender,
+        birthday,
+        intro,
+        comefrom,
+        qq,
+        msn,
+        phone,
+        mobile,
+        userImg,
+        userSignature
+        )
+        VALUES
+        (
+        #userId#,
+        #realname#,
+        #gender#,
+        #birthday#,
+        #intro#,
+        #comefrom#,
+        #qq#,
+        #msn#,
+        #phone#,
+        #mobile#,
+        #userImg#,
+        #userSignature#
+        );
+    </insert>
+
+    <insert id="insertUserRole" resultClass="com.j2ee.entity.UserRole">
+        INSERT INTO tbl_user
+        (
+        roleId,
+        userId
+        )
+        VALUES
+        (
+        #roleId#,
+        #userId#
+        );
+    </insert>
+
+    <update id="updateUser" resultClass="com.j2ee.entity.User">
+        UPDATE tbl_user
+        SET
+        userId = #userId#,
+        groupId = #groupId#,
+        username = #username#,
+        password = #password#,
+        email = #email#,
+        registerTime = #registerTime#,
+        registerIp = #registerIp#,
+        lastLogime = #lastLogime#,
+        lastLoginIp = #lastLoginIp#,
+        loginCount = #loginCount#,
+        rank = #rank#,
+        uploadTotal = #uploadTotal#,
+        uploadSize = #uploadSize#,
+        uploadDate = #uploadDate#,
+        isAdmin = #isAdmin#,
+        isViewonlyAdmin = #isViewonlyAdmin#,
+        isSelfAdmin = #isSelfAdmin#,
+        isDisabled = #isDisabled#
+        WHERE userId = #userId#
+    </update>
+
+    <update id="updateUserExt" resultClass="com.j2ee.entity.UserExt">
+        UPDATE tbl_user_ext
+        SET
+        userId = #userId#,
+        realname = #realname#,
+        gender = #gender#,
+        birthday = #birthday#,
+        intro = #intro#,
+        comefrom = #comefrom#,
+        qq = #qq#,
+        msn = #msn#,
+        phone = #phone#,
+        mobile = #mobile#,
+        userImg = #userImg#,
+        userSignature = #userSignature#
+        WHERE userId = #userId#
+    </update>
+
+    <update id="updateUserRole" resultClass="com.j2ee.entity.UserRole">
+        UPDATE tbl_user_role
+        SET
+        roleId = #roleId#,
+        userId = #userId#
+        );
+    </update>
+
+    <delete id="deleteUser" resultClass="com.j2ee.entity.User">
+        DELETE FROM tbl_user
+        WHERE
+        userId = #userId#
+    </delete>
+
+    <delete id="deleteUserExt" resultClass="com.j2ee.entity.UserExt">
+        DELETE FROM tbl_user_exit
+        WHERE
+        userId = #userId#
+    </delete>
+
+    <delete id="deleteUserRole" resultClass="com.j2ee.entity.UserRole">
+        DELETE FROM tbl_user_role
+        WHERE
+        userId = #userId#
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+	<!-- SqlMap定義 -->
+<sqlMap namespace="Role">
+
+	<select id="selectAllRoles" resultClass="com.j2ee.entity.Role">
+		SELECT
+		*
+		FROM
+		tbl_role
+		ORDER
+		BY roleId ASC
+  </select>
+
+	<select id="selectRole" resultClass="com.j2ee.entity.Role">
+		SELECT
+		*
+		FROM
+		role
+		ORDER BY
+		id
+		ASC
+  </select>
+
+	<insert id="insertRole" resultClass="com.j2ee.entity.Role">
+		INSERT INTO role
+		(
+		roleName,
+		roleDepict,
+		purview
+		)
+		VALUES
+		(
+		#roleName#,
+		#roleDepict#,
+		#purview#
+		);
+  </insert>
+
+	<update id="updateRole" resultClass="com.j2ee.entity.Role">
+		UPDATE role
+		SET
+		roleName
+		=#roleName#,
+		roleDepict = #roleDepict#,
+		purview = #purview#
+  </update>
+
+	<delete id="deleteRole" resultClass="com.j2ee.entity.Role">
+		DELETE FROM role
+		WHERE
+		id =
+		#id# 
+  </delete>
+
+</sqlMap>

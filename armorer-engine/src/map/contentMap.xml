@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <!-- SqlMap定義 -->
+<sqlMap namespace="Content">
+    <select id="selectAllContentCount" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        COUNT(1)
+        FROM
+        tbl_content
+  </select>
+
+    <select id="selectContentCountBySiteId" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        COUNT(1)
+        FROM
+        tbl_content
+        WHERE siteId = #siteId#
+  </select>
+
+    <select id="selectContentCountByChannelId" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        COUNT(1)
+        FROM
+        tbl_content
+        WHERE channelId = #channelId#
+        AND siteId = #siteId#
+  </select>
+
+    <select id="selectContentDto" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        a.contentId,
+        a.channelId,
+        a.siteId,
+        b.title,
+        b.views,
+        b.author,
+        b.origin,
+        b.originUrl,
+        b.description,
+        b.releaseDate,
+        b.needRegenerate,
+        c.channelName
+        FROM
+        tbl_content a
+        LEFT JOIN tbl_content_ext b ON(b.contentId = a.contentId)
+        LEFT JOIN tbl_channel_ext c ON(c.channelId = a.channelId)
+        LEFT JOIN tbl_channel g ON(g.channelId = a.channelId)
+        WHERE a.siteId = #siteId#
+        ORDER BY a.contentId ASC
+  </select>
+
+    <select id="selectContentDtoByChannelId" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        a.contentId,
+        a.channelId,
+        a.siteId,
+        b.title,
+        b.views,
+        b.author,
+        b.origin,
+        b.originUrl,
+        b.description,
+        b.releaseDate,
+        b.needRegenerate,
+        c.channelName
+        FROM
+        tbl_content a
+        LEFT JOIN tbl_content_ext b ON(b.contentId = a.contentId)
+        LEFT JOIN tbl_channel_ext c ON(c.channelId = a.channelId)
+        LEFT JOIN tbl_channel g ON(g.channelId = a.channelId)
+        WHERE a.siteId = #siteId#
+        AND a.channelId = #channelId#
+        ORDER BY a.contentId ASC
+  </select>
+
+
+    <select id="selectContentDtoByContentId" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        a.siteId,
+        a.contentId,
+        a.channelId,
+        a.siteId,
+        a.topLevel,
+        a.status,
+        b.title,
+        b.views,
+        b.author,
+        b.origin,
+        b.originUrl,
+        b.description,
+        b.releaseDate,
+        b.titleImg,
+        b.needRegenerate,
+        c.channelName,
+        d.commentTxt,
+        h.txt,
+        h.txt1,
+        h.txt2,
+        h.txt3
+        FROM
+        tbl_content a
+        LEFT JOIN tbl_content_ext b ON(b.contentId = a.contentId)
+        LEFT JOIN tbl_channel_ext c ON(c.channelId = a.channelId)
+        LEFT JOIN tbl_comment d ON(d.contentId = a.contentId)
+        LEFT JOIN tbl_channel g ON(g.channelId = a.channelId)
+        LEFT JOIN tbl_content_txt h ON(h.contentId = a.contentId)
+        WHERE a.contentId = #contentId#
+        AND a.siteId = #siteId#
+  </select>
+
+    <select id="selectContentByContentId" resultClass="com.j2ee.entity.Content">
+        SELECT
+        a.contentId,
+        a.channelId,
+        a.userId,
+        a.siteId,
+        a.topLevel,
+        a.status
+        FROM
+        tbl_content a
+        WHERE a.contentId = #contentId#
+        AND a.siteId = #siteId#
+  </select>
+
+    <select id="selectContentExtByContentId" resultClass="com.j2ee.entity.ContentExt">
+        SELECT
+        b.contentId,
+        b.title,
+        b.author,
+        b.origin,
+        b.originUrl,
+        b.description,
+        b.releaseDate,
+        b.titleImg,
+        b.needRegenerate
+        FROM
+        tbl_content_ext b
+        WHERE b.contentId = #contentId#
+    </select>
+
+    <select id="selectContentTxtByContentId" resultClass="com.j2ee.entity.ContentTxt">
+        SELECT
+        contentId,
+        txt,
+        txt1,
+        txt2,
+        txt3
+        FROM
+        tbl_content_txt
+        WHERE contentId = #contentId#
+    </select>
+
+    <select id="selectContentCount" resultClass="com.j2ee.dto.ContentDto">
+        SELECT
+        COUNT(1)
+        FROM
+        tbl_content a
+        LEFT JOIN tbl_content_ext b ON(b.contentId = a.contentId)
+        WHERE a.siteId = #siteId#
+    </select>
+
+    <insert id="insertContent" resultClass="com.j2ee.entity.Content">
+        INSERT INTO tbl_content
+        (
+        contentId,
+        channelId,
+        userId,
+        siteId,
+        topLevel,
+        status
+        )
+        VALUES
+        (
+        #contentId#,
+        #channelId#,
+        #userId#,
+        #siteId#,
+        #topLevel#,
+        #status#
+        );
+  </insert>
+
+    <insert id="insertContentExt" resultClass="com.j2ee.entity.ContentExt">
+        INSERT INTO tbl_content_ext
+        (
+        contentId,
+        title,
+        author,
+        origin,
+        originUrl,
+        description,
+        releaseDate,
+        titleImg,
+        needRegenerate
+        )
+        VALUES
+        (
+        #contentId#,
+        #title#,
+        #author#,
+        #origin#,
+        #originUrl#,
+        #description#,
+        #releaseDate#,
+        #titleImg#,
+        #needRegenerate#
+        );
+    </insert>
+
+    <insert id="insertContentTxt" resultClass="com.j2ee.entity.ContentTxt">
+        INSERT INTO tbl_content_txt
+        (
+        contentId,
+        txt,
+        txt1,
+        txt2,
+        txt3
+        )
+        VALUES
+        (
+        #contentId#,
+        #txt#,
+        #txt1#,
+        #txt2#,
+        #txt3#
+        );
+    </insert>
+
+    <update id="updateContentByContentId" resultClass="com.j2ee.entity.Content">
+        UPDATE tbl_content
+        SET
+        channelId = #channelId# ,
+        userId = #userId#,
+        siteId = #siteId#,
+        topLevel = #topLevel#,
+        status = #status#
+        WHERE contentId = #contentId#
+    </update>
+
+    <update id="updateContentExtByContentId" resultClass="com.j2ee.entity.ContentExt">
+        UPDATE tbl_content_ext
+        SET
+        title = #title#,
+        author = #author#,
+        origin = #origin#,
+        originUrl = #originUrl#,
+        description = #description#,
+        releaseDate = #releaseDate#,
+        titleImg = #titleImg#,
+        needRegenerate = #needRegenerate#
+        WHERE contentId = #contentId#
+    </update>
+
+    <update id="updateContentTxtByContentId" resultClass="com.j2ee.entity.ContentTxt">
+        UPDATE tbl_content_txt
+        SET
+        txt = #txt#,
+        txt1 = #txt1#,
+        txt2 = #txt2#,
+        txt3 = #txt3#
+        WHERE contentId = #contentId#
+    </update>
+
+    <delete id="deleteContentById" resultClass="com.j2ee.entity.Content">
+        DELETE FROM tbl_content
+        WHERE
+        contentId = #contentId#
+    </delete>
+
+    <delete id="deleteContentExtById" resultClass="com.j2ee.entity.ContentExt">
+        DELETE FROM tbl_content_ext
+        WHERE
+        contentId = #contentId#
+    </delete>
+    
+    <delete id="deleteContentTxtById" resultClass="com.j2ee.entity.ContentTxt">
+        DELETE FROM tbl_content_txt
+        WHERE
+        contentId = #contentId#
+    </delete>
+    
+    <delete id="deleteContentByChannelId" resultClass="com.j2ee.entity.Content">
+        DELETE FROM tbl_content
+        WHERE
+        channelId = #channelId#
+  </delete>
+</sqlMap>

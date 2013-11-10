@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<sqlMapConfig>
+
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="com.mysql.jdbc.Driver" />
+			<property name="JDBC.ConnectionURL" value="jdbc:mysql://localhost/ibatis_schema" />
+			<property name="JDBC.Username" value="root" />
+			<property name="JDBC.Password" value="root" />
+			<property name ="Pool.MaximumActiveConnections" value ="20" />  
+	        <property name ="Pool.MaximumIdleConnections"    value ="5" />  
+	        <property name ="Pool.MaximumCheckoutTime"    value ="2000" />  
+	        <property name ="Pool.TimeToWait"    value ="500" />  
+	        <property name ="Pool.PingQuery"    value ="select 1 from ACCOUNT" />  
+	        <property name ="Pool.PingEnabled"    value ="false" />  
+	        <property name ="Pool.PingConnectionsOlderThan"    value ="1" />  
+	        <property name ="Pool.PingConnectionsNotUsedFor"    value ="1" />  
+		</dataSource>
+	</transactionManager>
+	
+	<databases value="mysql">
+		<oracle>
+			<driver>oracle.jdbc.pool.OracleConnectionPoolDataSource</driver>
+			<url>jdbc:oracle:thin:@10.10.10.215:1521:ORCL</url>
+			<username>mkuser07</username>
+			<password>mkuser07</password>
+		</oracle>
+
+		<sqlserver2000>
+			<driver>com.microsoft.jdbc.sqlserver.SQLServerDriver</driver>
+			<url>jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=carSalesSystem</url>
+			<username>sa</username>
+			<password>sa</password>
+		</sqlserver2000>
+
+		<mysql>
+			<driver>com.mysql.jdbc.Driver</driver>
+			<url>jdbc:mysql://localhost:3306/yaocms</url>
+			<username>root</username>
+			<password>root</password>
+		</mysql>
+	</databases>
+	
+  	<sqlMap resource="/map/Account.xml"/>
+</sqlMapConfig>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+	<!-- SqlMap定義 -->
+<sqlMap namespace="Config">
+
+	<select id="selectAllUserCount" resultClass="com.j2ee.dto.ContentDto">
+		SELECT
+		COUNT(1)
+		FROM
+		jc_content
+  </select>
+
+	<select id="selectConfigByConfigId" resultClass="com.j2ee.entity.Config">
+		SELECT
+		a.configId,
+		a.currentSiteId
+		FROM
+		tbl_config a
+		WHERE a.configId = #configId#
+  </select>
+
+	<select id="selectSiteList" resultClass="com.j2ee.entity.Site">
+		SELECT
+		a.siteId,
+		a.siteName
+		FROM
+		tbl_site a
+  </select>
+
+	<update id="updateConfig" resultClass="com.j2ee.entity.Config">
+		UPDATE tbl_config
+		SET
+		currentSiteId = #currentSiteId#
+		WHERE configId = #configId# 
+  </update>
+
+
+</sqlMap>

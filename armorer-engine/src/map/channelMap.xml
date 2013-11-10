@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- SqlMap定義 -->
+<sqlMap namespace="Channel">
+
+  <select id="selectAllChannelCount" resultClass="com.j2ee.dto.ContentDto">
+    SELECT
+    COUNT(1)
+    FROM
+        tbl_channel
+  </select>
+  
+  <select id="selectChannelCountByParentId" resultClass="com.j2ee.dto.ContentDto">
+    SELECT
+    COUNT(1)
+    FROM
+        tbl_channel
+    WHERE parentId = #parentId#
+    AND siteId = #siteId#
+  </select>
+  
+  <select id="selectChannelDtoBySiteId" resultClass="com.j2ee.dto.ChannelDto">
+    SELECT
+    a.channelId,
+    a.siteId,
+    a.parentId,
+    a.channelPath, 
+    a.hasContent,
+    a.isDisplay,
+    b.channelName
+    FROM
+        tbl_channel a
+    LEFT JOIN tbl_channel_ext b ON(b.channelId = a.channelId)
+    LEFT JOIN tbl_channel_role d ON(d.channelId = a.channelId)
+    WHERE siteId = #siteId#
+    ORDER BY a.channelId ASC
+  </select>
+  
+  <select id="selectChannelDtoByParentId" resultClass="com.j2ee.dto.ChannelDto">
+    SELECT
+    a.channelId,
+    a.siteId,
+    a.parentId,
+    a.channelPath, 
+    a.hasContent,
+    a.isDisplay,
+    b.channelName
+    FROM
+        tbl_channel a
+    LEFT JOIN tbl_channel_ext b ON(b.channelId = a.channelId)
+    LEFT JOIN tbl_channel_role d ON(d.channelId = a.channelId)
+    WHERE siteId = #siteId#
+    AND parentId = #parentId#
+    ORDER BY a.channelId ASC
+  </select>
+  
+  <select id="selectChannelDtoByChannelId" resultClass="com.j2ee.dto.ChannelDto">
+  SELECT
+    a.siteId,
+    a.channelId,
+    a.siteId,
+    a.parentId,
+    a.channelPath, 
+    a.hasContent,
+    a.isDisplay,
+    b.channelName
+    FROM
+        tbl_channel a
+    LEFT JOIN tbl_channel_ext b ON(b.channelId = a.channelId)
+    LEFT JOIN tbl_channel_role d ON(d.channelId = a.channelId)
+    WHERE a.channelId = #channelId#
+    and a.siteId = #siteId#
+    ORDER BY a.channelId ASC
+  </select>
+
+  <select id="selectChannelByChannelId" resultClass="com.j2ee.entity.Channel">
+  SELECT
+    *
+    FROM
+        tbl_channel
+    WHERE channelId = #channelId#
+  </select>
+  
+  <select id="selectChannelExtByChannelId" resultClass="com.j2ee.entity.ChannelExt">
+  SELECT
+    *
+    FROM
+        tbl_channel_ext
+    WHERE channelId = #channelId#
+  </select>
+  
+  <select id="selectChildrenChannel" resultClass="com.j2ee.dto.ChannelDto">
+  SELECT
+    a.channelId,
+    a.siteId,
+    a.parentId,
+    a.channelPath, 
+    a.hasContent,
+    a.isDisplay,
+    b.channelName
+    FROM
+        tbl_channel a
+    LEFT JOIN tbl_channel_ext b ON(b.channelId = a.channelId)
+    LEFT JOIN tbl_channel_role d ON(d.channelId = a.channelId)
+    WHERE a.channelId NOT IN(
+        SELECT DISTINCT A.channelId from tbl_channel A,tbl_channel B WHERE B.parentId=A.channelId GROUP BY A.channelId
+    )
+    ORDER BY a.channelId ASC
+  </select>
+  
+  <insert id="insertChannel" resultClass="com.j2ee.entity.Channel">
+    INSERT INTO tbl_channel
+    (
+    siteId,
+    parentId,
+    channelPath, 
+    hasContent,
+    isDisplay
+    )
+    VALUES
+    (
+    #siteId#,
+    #parentId#,
+    #channelPath#, 
+    #hasContent#,
+    #isDisplay#
+    );
+  </insert>
+  
+  <insert id="insertChannelExt" resultClass="com.j2ee.entity.ChannelExt">
+    INSERT INTO tbl_channel_ext
+    (
+    channelId,
+    channelName,
+    isStaticChannel,
+    titleImg,
+    commentControl,
+    title,
+    description
+    )
+    VALUES
+    (
+    #channelId#,
+    #channelName#,
+    #isStaticChannel#,
+    #titleImg#,
+    #commentControl#,
+    #title#,
+    #description#
+    );
+  </insert>
+  
+  <update id="updateChannel" resultClass="com.j2ee.entity.Channel">
+    UPDATE tbl_channel
+    SET 
+    siteId = #siteId#,
+    parentId = #parentId#,
+    channelPath = #channelPath#, 
+    hasContent = #hasContent#,
+    isDisplay = #isDisplay#
+    WHERE channelId = #channelId# 
+  </update>
+
+  <update id="updateChannelExt" resultClass="com.j2ee.entity.ChannelExt">
+    UPDATE tbl_channel_ext
+    SET 
+    channelName = #channelName#,
+    isStaticChannel = #isStaticChannel#,
+    titleImg = #titleImg#,
+    commentControl = #commentControl#,
+    title = #title#,
+    description = #description#
+    WHERE channelId = #channelId# 
+  </update>
+  
+  <delete id="deleteChannelById" resultClass="com.j2ee.entity.Channel">
+    DELETE FROM tbl_channel 
+    WHERE 
+    channelId = #channelId# 
+  </delete>
+  
+  <delete id="deleteChannelExtById" resultClass="com.j2ee.entity.ChannelExt">
+    DELETE FROM tbl_channel_ext 
+    WHERE 
+    channelId = #channelId# 
+  </delete>
+  
+</sqlMap>
