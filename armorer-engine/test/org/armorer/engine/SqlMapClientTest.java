@@ -1,5 +1,7 @@
 package org.armorer.engine;
 
+import java.sql.SQLException;
+
 import org.armorer.engine.jdbc.SqlMapClient;
 import org.armorer.engine.jdbc.SqlMapClientBuilder;
 
@@ -18,7 +20,11 @@ public class SqlMapClientTest extends Thread {
         account.setFirstName("aaa");
         account.setLastName("bbb");
         account.setEmailAddress("test@test.com");
-        sqlMapClient.insert("insertAccount", account);
+        try {
+            sqlMapClient.insert("insertAccount", account);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -28,7 +34,7 @@ public class SqlMapClientTest extends Thread {
     public static void m1() {
         SqlMapClientBuilder sqlMapClientBuilder = new SqlMapClientBuilder();
         SqlMapClient sqlMapClient = sqlMapClientBuilder.buildSqlMapClient(null);
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100; i++) {
             SqlMapClientTest sqlMapClientTest = new SqlMapClientTest(
                     sqlMapClient);
             sqlMapClientTest.start();
@@ -39,7 +45,15 @@ public class SqlMapClientTest extends Thread {
         SqlMapClientBuilder sqlMapClientBuilder = new SqlMapClientBuilder();
         SqlMapClient sqlMapClient = sqlMapClientBuilder.buildSqlMapClient(null);
         for (int i = 0; i < 100; i++) {
-            sqlMapClient.insert(null, null);
+            try {
+                Account account = new Account();
+                account.setFirstName("aaa");
+                account.setLastName("bbb");
+                account.setEmailAddress("test@test.com");
+                sqlMapClient.insert("insertAccount", account);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

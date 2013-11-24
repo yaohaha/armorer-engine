@@ -5,7 +5,7 @@
     <transactionManager type="JDBC">
         <dataSource type="SIMPLE">
             <property name="JDBC.Driver" value="com.mysql.jdbc.Driver" />
-            <property name="JDBC.ConnectionURL" value="jdbc:mysql://localhost/ibatis_schema" />
+            <property name="JDBC.ConnectionURL" value="jdbc:mysql://localhost/test" />
             <property name="JDBC.Username" value="root" />
             <property name="JDBC.Password" value="root" />
             <property name ="Pool.MaximumActiveConnections" value ="20" />  

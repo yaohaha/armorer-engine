@@ -31,7 +31,7 @@ public class SessionScope {
   private boolean commitRequired;
   private Map preparedStatements;
 
-
+  private int currentState;
    
     private Transaction transaction;
   /**
@@ -160,7 +160,13 @@ public void setTransaction(Transaction transaction) {
     this.transaction = transaction;
 }
 
-  
+public int getCurrentState() {
+	return currentState;
+}
+
+public void setCurrentState(int currentState) {
+	this.currentState = currentState;
+}
 
 }
 

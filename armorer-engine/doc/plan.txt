@@ -1,2 +1,4 @@
-SqlMapConfigParser   解析SqlMapConfig.xml文件
+SqlMapConfigParser   解析SqlMapConfig.xml文件， 实例化delegate，client
 BeanConfigParser     解析MapConfig文件中所配置的数据库bean文件
+
+SqlMapSession  由SqlMapClient通过ThreadLocal创建 ,存放 delegate ，sessionScope

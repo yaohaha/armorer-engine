@@ -35,7 +35,7 @@ public class SqlMapClient {
     }
 
 
-    public Object insert(String id, Object param) {
+    public Object insert(String id, Object param) throws SQLException {
         return getLocalSqlMapSession().insert(id, param);
     }
     //
@@ -43,26 +43,26 @@ public class SqlMapClient {
     // return getLocalSqlMapSession().insert(id);
     // }
     //
-    // public int update(String id, Object param) throws SQLException {
-    // return getLocalSqlMapSession().update(id, param);
-    // }
+	public int update(String id, Object param) throws SQLException {
+		return getLocalSqlMapSession().update(id, param);
+	}
     //
     // public int update(String id) throws SQLException {
     // return getLocalSqlMapSession().update(id);
     // }
     //
-    // public int delete(String id, Object param) throws SQLException {
-    // return getLocalSqlMapSession().delete(id, param);
-    // }
+	public int delete(String id, Object param) throws SQLException {
+		return getLocalSqlMapSession().delete(id, param);
+	}
     //
     // public int delete(String id) throws SQLException {
     // return getLocalSqlMapSession().delete(id);
     // }
     //
-    // public Object queryForObject(String id, Object paramObject) throws
-    // SQLException {
-    // return getLocalSqlMapSession().queryForObject(id, paramObject);
-    // }
+	public Object queryForObject(String id, Object paramObject)
+			throws SQLException {
+		return getLocalSqlMapSession().queryForObject(id, paramObject);
+	}
     //
     // public Object queryForObject(String id) throws SQLException {
     // return getLocalSqlMapSession().queryForObject(id);
