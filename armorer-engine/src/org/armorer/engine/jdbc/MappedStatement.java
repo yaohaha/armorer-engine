@@ -2,6 +2,8 @@ package org.armorer.engine.jdbc;
 
 import java.sql.SQLException;
 
+import org.armorer.engine.bean.Sql;
+
 public class MappedStatement {
 	private Sql sql;
 

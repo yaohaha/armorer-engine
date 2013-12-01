@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.armorer.engine.bean.Sql;
+
 public class SqlMapExecutorDelegate {
 
     private SqlMapConfig sqlMapConfig;
@@ -125,31 +127,50 @@ public class SqlMapExecutorDelegate {
      */
     public Object queryForObject(SessionScope sessionScope, String id, Object paramObject, Object resultObject)
             throws SQLException {
-        Object object = null;
         Sql sql = this.sqlMapConfig.getSqlMap().get(id);
-        if (sql.getCacheModelId() != null) {
-            CacheModel cacheModel = this.sqlMapConfig.getCacheModelMap().get(sql.getCacheModelId());
-            object = cacheModel.getObject(id);
-            if (object == null) {
-                startTransaction(sessionScope);
-                Connection conn = sessionScope.getConnection();
-                List<Object> values = commonUtil.parseParameterValuesByObject(sql.getParameterList(),
-                        sql.getParameterClass(), paramObject);
-                try {
-                    PreparedStatement ps = prepareStatement(sessionScope, conn, sql.getTxt());
-                    for (int i = 0; i < values.size(); i++) {
-                        commonUtil.doPreparedStatement(ps, values.get(i), i + 1);
-                    }
-                    ResultSet result = ps.executeQuery();
-                    commit(sessionScope);
-
-                } finally {
-                    end(sessionScope);
-                }
-
-                cacheModel.putObject(id, object);
+        startTransaction(sessionScope);
+        Connection conn = sessionScope.getConnection();
+        List<Object> values = commonUtil.parseParameterValuesByObject(sql.getParameterList(), sql.getParameterClass(),
+                paramObject);
+        try {
+            PreparedStatement ps = prepareStatement(sessionScope, conn, sql.getTxt());
+            for (int i = 0; i < values.size(); i++) {
+                commonUtil.doPreparedStatement(ps, values.get(i), i + 1);
             }
+            ResultSet result = ps.executeQuery();
+            commit(sessionScope);
+
+        } finally {
+            end(sessionScope);
         }
+        Object object = null;
+        // Sql sql = this.sqlMapConfig.getSqlMap().get(id);
+        // if (sql.getCacheModelId() != null) {
+        // CacheModel cacheModel =
+        // this.sqlMapConfig.getCacheModelMap().get(sql.getCacheModelId());
+        // object = cacheModel.getObject(id);
+        // if (object == null) {
+        // startTransaction(sessionScope);
+        // Connection conn = sessionScope.getConnection();
+        // List<Object> values =
+        // commonUtil.parseParameterValuesByObject(sql.getParameterList(),
+        // sql.getParameterClass(), paramObject);
+        // try {
+        // PreparedStatement ps = prepareStatement(sessionScope, conn,
+        // sql.getTxt());
+        // for (int i = 0; i < values.size(); i++) {
+        // commonUtil.doPreparedStatement(ps, values.get(i), i + 1);
+        // }
+        // ResultSet result = ps.executeQuery();
+        // commit(sessionScope);
+        //
+        // } finally {
+        // end(sessionScope);
+        // }
+        //
+        // cacheModel.putObject(id, object);
+        // }
+        // }
         return object;
     }
 

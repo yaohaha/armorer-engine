@@ -1,4 +1,4 @@
-package org.armorer.engine.jdbc;
+package org.armorer.engine.bean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,6 +2,8 @@ package org.armorer.engine.jdbc;
 
 import java.util.Map;
 
+import org.armorer.engine.bean.Sql;
+
 public class SqlMapConfig {
 
 	private Map<String, Sql> sqlMap;

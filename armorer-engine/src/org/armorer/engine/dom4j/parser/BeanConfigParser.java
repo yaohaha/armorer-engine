@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.armorer.engine.jdbc.Sql;
+import org.armorer.engine.bean.Sql;
 import org.armorer.engine.jdbc.SqlMapExecutorDelegate;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

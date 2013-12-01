@@ -28,10 +28,21 @@ public class SqlMapClientTest extends Thread {
     }
 
     public static void main(String[] args) {
-        m1();
+        s1();
     }
 
-    public static void m1() {
+    public static void s1(){
+            SqlMapClientBuilder sqlMapClientBuilder = new SqlMapClientBuilder();
+            SqlMapClient sqlMapClient = sqlMapClientBuilder.buildSqlMapClient(null);
+            try {
+                sqlMapClient.queryForObject("selectAccountById", 127
+                        );
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+    
+    public static void i1() {
         SqlMapClientBuilder sqlMapClientBuilder = new SqlMapClientBuilder();
         SqlMapClient sqlMapClient = sqlMapClientBuilder.buildSqlMapClient(null);
         for (int i = 0; i < 100; i++) {
@@ -41,7 +52,7 @@ public class SqlMapClientTest extends Thread {
         }
     }
 
-    public static void m2() {
+    public static void i2() {
         SqlMapClientBuilder sqlMapClientBuilder = new SqlMapClientBuilder();
         SqlMapClient sqlMapClient = sqlMapClientBuilder.buildSqlMapClient(null);
         for (int i = 0; i < 100; i++) {

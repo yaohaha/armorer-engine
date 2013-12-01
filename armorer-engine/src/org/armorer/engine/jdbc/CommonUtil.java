@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.armorer.engine.bean.Sql;
+
 public class CommonUtil {
 
     private static final String PARAMETER_TOKEN = "#";
@@ -107,6 +109,9 @@ public class CommonUtil {
     }
 
     public List<Object> parseParameterValuesByObject(List<String> parameterList, Class<?> parameterClass, Object obj) {
+        if(parameterClass.equals( Integer.class)){
+            System.out.println(obj);
+        }
         List<Object> values = new ArrayList<Object>();
         for (int i = 0; i < parameterList.size(); i++) {
             String parameter = parameterList.get(i);

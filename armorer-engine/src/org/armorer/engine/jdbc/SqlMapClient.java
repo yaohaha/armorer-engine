@@ -63,6 +63,10 @@ public class SqlMapClient {
 			throws SQLException {
 		return getLocalSqlMapSession().queryForObject(id, paramObject);
 	}
+//	   public Object queryForObject(String id, int param)
+//	            throws SQLException {
+//	        return getLocalSqlMapSession().queryForObject(id, param);
+//	    }
     //
     // public Object queryForObject(String id) throws SQLException {
     // return getLocalSqlMapSession().queryForObject(id);
