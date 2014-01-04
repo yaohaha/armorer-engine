@@ -68,21 +68,21 @@ public class BeanConfigParser {
     }
 
     private void doSelectSqlMap(Element e, Map<String, Sql> sqlMap){
-        doSqlMap(e,sqlMap);
+        doSqlMap(e,sqlMap,"select");
     }
     
     private void doInsertSqlMap(Element e, Map<String, Sql> sqlMap){
-        doSqlMap(e,sqlMap);
+        doSqlMap(e,sqlMap,"insert");
     }
     
     private void doUpdateSqlMap(Element e, Map<String, Sql> sqlMap){
-        doSqlMap(e,sqlMap);
+        doSqlMap(e,sqlMap,"update");
     }
     
     private void doDeleteSqlMap(Element e, Map<String, Sql> sqlMap){
-        doSqlMap(e,sqlMap);
+        doSqlMap(e,sqlMap,"delete");
     }
-    private void doSqlMap(Element e, Map<String, Sql> sqlMap){
+    private void doSqlMap(Element e, Map<String, Sql> sqlMap,String type){
         String id = e.attributeValue("id");
         if (id != null) {
             id = id.trim();
@@ -92,6 +92,7 @@ public class BeanConfigParser {
         }
         Sql sql = new Sql();
         sql.setId(id);
+        sql.setType(type);
         sql.setStrParameterClass(e.attributeValue("parameterClass"));
         sql.setStrResultClass(e.attributeValue("resultClass"));
         sql.setTxt(e.getText());

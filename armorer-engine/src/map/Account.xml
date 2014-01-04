@@ -22,46 +22,46 @@
 
   <!-- Select with no parameters using the result map for Account class. -->
   <select id="selectAllAccounts" resultMap="AccountResult">
-    select * from ACCOUNT
+    SELECT * from ACCOUNT
   </select>
 
   <!-- A simpler select example without the result map.  Note the 
        aliases to match the properties of the target result class. -->
   <select id="selectAccountById" parameterClass="int" resultClass="Account">
-    select
-      ACC_ID as id,
-      ACC_FIRST_NAME as firstName,
-      ACC_LAST_NAME as lastName,
-      ACC_EMAIL as emailAddress
-    from ACCOUNT
-    where ACC_ID = #id#
+    SELECT
+      ACC_ID AS id,
+      ACC_FIRST_NAME AS firstName,
+      ACC_LAST_NAME AS lastName,
+      ACC_EMAIL AS emailAddress
+    FROM ACCOUNT
+    WHERE ACC_ID = #id#
   </select>
    
   <!-- Insert example, using the Account parameter class -->
   <insert id="insertAccount" parameterClass="Account">
-    insert into ACCOUNT (
+    INSERT INTO ACCOUNT (
       ACC_FIRST_NAME,
       ACC_LAST_NAME,
       ACC_EMAIL
      )
-    values (
+    VALUES (
       #firstName#, #lastName#, #emailAddress#
     )
   </insert>
 
   <!-- Update example, using the Account parameter class -->
   <update id="updateAccount" parameterClass="Account">
-    update ACCOUNT set
+    UPDATE ACCOUNT SET
       ACC_FIRST_NAME = #firstName#,
       ACC_LAST_NAME = #lastName#,
       ACC_EMAIL = #emailAddress#
-    where
+    WHERE
       ACC_ID = #id#
   </update>
 
   <!-- Delete example, using an integer as the parameter class -->
   <delete id="deleteAccountById" parameterClass="int">
-    delete from ACCOUNT where ACC_ID = #id#
+    DELETE FROM ACCOUNT WHERE ACC_ID = #id#
   </delete>
 
 </sqlMap>

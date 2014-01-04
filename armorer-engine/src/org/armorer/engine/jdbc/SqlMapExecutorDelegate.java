@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.armorer.engine.bean.Sql;
+import org.armorer.engine.common.CommonUtil;
 
 public class SqlMapExecutorDelegate {
 
@@ -110,7 +111,6 @@ public class SqlMapExecutorDelegate {
     }
 
     public Object queryForObject(SessionScope sessionScope, String id, Object paramObject) throws SQLException {
-
         return queryForObject(sessionScope, id, paramObject, null);
     }
 
@@ -137,8 +137,15 @@ public class SqlMapExecutorDelegate {
             for (int i = 0; i < values.size(); i++) {
                 commonUtil.doPreparedStatement(ps, values.get(i), i + 1);
             }
-            ResultSet result = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+            
             commit(sessionScope);
+            
+            try {
+                commonUtil.doReslutSet(rs,sql.getResultClass(),sql.getTxt(),sqlMapConfig.getResultMap().get("Account"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } finally {
             end(sessionScope);

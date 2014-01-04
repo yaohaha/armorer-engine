@@ -35,8 +35,8 @@ public class SqlMapClientTest extends Thread {
             SqlMapClientBuilder sqlMapClientBuilder = new SqlMapClientBuilder();
             SqlMapClient sqlMapClient = sqlMapClientBuilder.buildSqlMapClient(null);
             try {
-                sqlMapClient.queryForObject("selectAccountById", 127
-                        );
+               Account account = (Account) sqlMapClient.queryForObject("selectAccountById", 127 );
+               System.out.println(account.getFirstName());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
